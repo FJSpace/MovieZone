@@ -9,19 +9,14 @@ import com.google.gson.Gson;
 import edu.chalmers.moviezone_backend.MovieZone;
 import edu.chalmers.moviezone_backend.Enjoyer;
 import edu.chalmers.moviezone_backend.Review;
-import edu.chalmers.moviezone_backend.Reviews;
 import edu.chalmers.moviezone_backend.crypto.Password;
 import edu.chalmers.moviezone_backend.crypto.Tokens;
-import edu.chalmers.moviezone_backend.wrappers.EnjoyerWrapper;
 import java.net.URI;
 import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.json.JsonObject;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceContextType;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -36,6 +31,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import org.jose4j.lang.JoseException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.AddressException;
 
 /**
  *
@@ -62,8 +59,9 @@ public class EnjoyersResource {
     @Produces({MediaType.APPLICATION_JSON})
     public Response getProfile(@PathParam("id") Long id) {
         Enjoyer userToFind = mz.getEnjoyers().find(id);
+        Gson gs = new Gson();
         if (userToFind != null)
-            return Response.ok(new EnjoyerWrapper(userToFind)).build(); //200 respons
+            return Response.ok(gs.toJson(userToFind)).build(); //200 respons
         else
             return Response.noContent().build();  // 204 respons
     }
@@ -92,9 +90,14 @@ public class EnjoyersResource {
     @POST
     @Path("newuser")
     @Consumes(MediaType.APPLICATION_JSON)
-     public Response register(JsonObject jo) throws JoseException{
+    public Response register(JsonObject jo) throws JoseException{
+        String email = jo.getString("email");
+        try{
+            InternetAddress ia = new InternetAddress(email);
+            ia.validate();
+        } catch (AddressException ae) {return Response.status(406).build();}
         Enjoyer theUser = new Enjoyer(jo.getString("username"),jo.getString("password"));
-        theUser.setEmail(jo.getString("email"));
+        theUser.setEmail(email);
         theUser.setFname(jo.getString("fname"));
         theUser.setLname(jo.getString("lname"));
         mz.getEnjoyers().create(theUser);

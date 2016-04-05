@@ -58,7 +58,7 @@ public class Enjoyers extends DAO<Enjoyer,Long> implements IEnjoyers{
     @Override
     public Enjoyer findByUsername(String user){
         try{
-            String jpql = "SELECT e FROM Enjoyer e WHERE e.userName=:user)";
+            String jpql = "SELECT e FROM Enjoyer e WHERE e.userName=:user";
             Enjoyer e = em.createQuery(jpql, Enjoyer.class)
                           .setParameter("user", user).getSingleResult();  
             return e;

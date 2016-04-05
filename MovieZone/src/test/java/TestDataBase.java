@@ -371,7 +371,7 @@ public class TestDataBase {
         movie.getEnjoyers().create(user);
         Rate rate = new Rate("theMovie", user.getId(), 2);
         movie.getRatings().create(rate);
-        int oldRate = rate.getRating();
+        double oldRate = rate.getRating();
         List<Rate> rList = movie.getRatings().findAll();
         assertTrue(rList.size() == 1);
         assertTrue(rList.get(0).getRating() == oldRate);

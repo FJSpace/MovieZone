@@ -170,6 +170,7 @@ function ($scope, $uibModal, moviezone, $cookies, $window, $location) {
 movieZoneControllers.controller('LoginModalInstanceCtrl',['$scope', '$uibModalInstance', 'MovieZoneProxy','$cookies','$window', 
 function ($scope, $uibModalInstance, moviezone, $cookies, $window) {
     $scope.loginFailed=false;
+    $scope.emailFailed=false;
     $scope.registerFailed=false;
     $scope.login = function () {
         console.log("reached Login");
@@ -204,8 +205,10 @@ function ($scope, $uibModalInstance, moviezone, $cookies, $window) {
                     $window.location.reload();
                 },
                 function(error){
-                    console.log(error);
-                    $scope.registerFailed=true;
+                    if(error.status === 406)
+                        $scope.emailFailed=true;
+                    else
+                        $scope.registerFailed=true;
                 });
   };
   $scope.cancel = function () {
