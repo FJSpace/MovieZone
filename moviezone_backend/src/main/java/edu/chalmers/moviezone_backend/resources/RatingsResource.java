@@ -55,8 +55,8 @@ import org.jose4j.lang.JoseException;
 @Path("ratings")
 public class RatingsResource {
 
-     @PersistenceContext(unitName = "moviezone_pu",type=PersistenceContextType.TRANSACTION)
-    private EntityManager em;
+    //@PersistenceContext(unitName = "moviezone_pu",type=PersistenceContextType.TRANSACTION)
+    //private EntityManager em;
    
     @Context
     private UriInfo uriInfo;
@@ -80,57 +80,41 @@ public class RatingsResource {
                                 @PathParam("movieId") String movieId ) {
         try{
             Long userId = Tokens.fromToken(token);
-            String jpql = "SELECT r FROM Rate r WHERE r.userId=:userId AND r.movieId=:movieId";
-            Rate r = em.createQuery(jpql, Rate.class).setParameter("userId", userId).setParameter("movieId", movieId).getSingleResult();
+            Rate r = mz.getRatings().getMyRating(userId, movieId);
             if(r != null)
                 return Response.ok(r).build();
             else
                 return Response.status(400).build();
         }
         catch(JoseException je) { return Response.status(401).build(); }
-        catch(NoResultException nre){ return Response.status(417).build(); }
     }
      
     @GET
     @Path("{movieId}")
     @Produces({MediaType.APPLICATION_JSON})
     public Response getAverageRating(@PathParam("movieId") String movieId){ 
-        try{
-            String jpql = "SELECT AVG(r.rating) FROM Rate r WHERE r.movieId=:movieId GROUP BY r.movieId";
-            double avg = em.createQuery(jpql, double.class)
-                    .setParameter("movieId", movieId).getSingleResult();
-            return Response.ok(avg).build();
-        } catch(NoResultException nre){ return Response.status(417).build(); }
+        double avg = mz.getRatings().getAverageRating(movieId);
+        return Response.ok(avg).build();
     }
     
     @GET
     @Path("top")
     @Produces({MediaType.APPLICATION_JSON})
     public Response getTopRatedMovies(@QueryParam("nbrofmovies") int nrOfMovies){ 
-        String jpql = "SELECT DISTINCT r.movieId FROM Rate r";
-        List<String> movies = em.createQuery(jpql, String.class).getResultList();
-        if(movies.isEmpty())
-            return Response.status(417).build();
-        else {
-            MovieAvg ma = new MovieAvg();
-            List<MovieAvg> mas = new ArrayList<>();
-            double avg;
-            for(String m : movies){
-                avg = em.createQuery("SELECT AVG(r.rating) FROM Rate r WHERE r.movieId=:movieId GROUP BY r.movieId", double.class)
-                    .setParameter("movieId", m).getSingleResult();
-                ma = new MovieAvg(m,avg);
-                mas.add(ma);
-            }
-            mas.sort(ma);
-            mas.subList(0, nrOfMovies);
-            Collection<MovieAvgWrapper> movWrap = new HashSet<>();
-            mas.stream().forEachOrdered((movAvg) -> {
-                movWrap.add(new MovieAvgWrapper(movAvg));
-            });
-            GenericEntity<Collection<MovieAvgWrapper>> ge = new GenericEntity<Collection<MovieAvgWrapper>>(movWrap) {};
-            Gson gs = new Gson();
-            return Response.ok(gs.toJson(mas)).build();
+        Gson gs = new Gson();
+        List<Rate> rs = mz.getRatings().getTopRatedMovies();
+        while(rs.size() > nrOfMovies){
+            Rate r = rs.get(rs.size()-1);
+            rs.remove(rs.size()-1);
+            mz.getRatings().delete(r.getId());
         }
+        String json = gs.toJson(rs);
+        while(!rs.isEmpty()){
+            Rate r = rs.get(rs.size()-1);
+            rs.remove(rs.size()-1);
+            mz.getRatings().delete(r.getId());
+        }
+        return Response.ok(json).build();
     }
     
     @POST
@@ -156,11 +140,8 @@ public class RatingsResource {
                                JsonObject jo) {
         try{
             Long userId = Tokens.fromToken(token);
-            String jpql = "SELECT r FROM Rate r WHERE r.userId=:id AND r.movieId=:movieId";
-            Rate r = em.createQuery(jpql, Rate.class)
-                    .setParameter("movieId", jo.getString("movieId"))
-                    .setParameter("userId",userId)
-                    .getSingleResult();
+            String movieId = jo.getString("movieId");
+            Rate r = mz.getRatings().getMyRating(userId, movieId);
             if(r != null){
                 r.setRating(jo.getInt("rating"));
                 mz.getRatings().update(r);
@@ -179,11 +160,8 @@ public class RatingsResource {
                                  JsonObject jo) {
         try{
             Long userId = Tokens.fromToken(token);
-            String jpql = "SELECT r FROM Rate r WHERE r.userId=:id AND r.movieId=:movieId";
-            Rate r = em.createQuery(jpql, Rate.class)
-                    .setParameter("userId", userId)
-                    .setParameter("movieId", jo.getString("movieId"))
-                    .getSingleResult();
+            String movieId = jo.getString("movieId");
+            Rate r = mz.getRatings().getMyRating(userId, movieId);
             if(r != null){
                 mz.getRatings().delete(r.getId());
                 return Response.ok().build();
@@ -191,52 +169,5 @@ public class RatingsResource {
             else
                 return Response.status(400).build();
         }catch(JoseException je) { return Response.status(401).build(); }
-    }
-    
-      /**
-     * Classes for the method getTopRatedMovies
-     */
-    public class MovieAvg implements Comparator<MovieAvg>{
-        
-        String movie;
-        double avg;
-        
-        public MovieAvg(){}
-        
-        public MovieAvg(String movie, double avg){
-            this.avg = avg;
-            this.movie = movie;
-        }
-
-        @Override
-        public int compare(MovieAvg d, MovieAvg d1) {
-            return Double.compare(d.avg, d1.avg);
-        }
-    }
-    
-    @XmlRootElement
-    @XmlAccessorType(XmlAccessType.PROPERTY)
-    @XmlType(name = "MovieAvg", propOrder = {
-        "movie",
-        "avg"
-    })
-    public class MovieAvgWrapper {
-        private MovieAvg ma;
-    
-        protected MovieAvgWrapper(){}
-    
-        public MovieAvgWrapper(MovieAvg ma){
-            this.ma = ma;
-        }
-    
-        @XmlElement
-        public String getMovie(){
-            return ma.movie;
-        }
-    
-        @XmlElement
-        public double getMovieId(){
-            return ma.avg;
-        }
     }
 }

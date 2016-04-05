@@ -16,4 +16,7 @@ public interface IRatings extends IDAO<Rate,Long>{
     public List<Rate> getByRate(int rate);
     public List<Rate> getByMovie(String movieId);
     public List<Rate> getByEnjoyer(Long userid);
+    public Rate getMyRating(Long userId, String movieId);
+    public double getAverageRating(String movieId);
+    public List<Rate> getTopRatedMovies();
 }

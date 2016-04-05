@@ -48,8 +48,8 @@ import com.google.gson.Gson;
 @Path("reviews")
 public class ReviewsResource {
     
-     @PersistenceContext(unitName = "moviezone_pu",type=PersistenceContextType.TRANSACTION)
-    private EntityManager em;
+    //@PersistenceContext(unitName = "moviezone_pu",type=PersistenceContextType.TRANSACTION)
+    //private EntityManager em;
    
     @Context
     private UriInfo uriInfo;
@@ -106,11 +106,7 @@ public class ReviewsResource {
         Gson gs = new Gson();
         try{
             Long userId = Tokens.fromToken(token);
-            String jpql = "SELECT r FROM Review r WHERE r.userId=:userId AND r.movieId=:movieId";
-            Review r = em.createQuery(jpql, Review.class)
-                    .setParameter("userId", userId)
-                    .setParameter("movieId", movieId)
-                    .getSingleResult();
+            Review r = mz.getReviews().getMyReview(userId, movieId);
             return Response.ok(gs.toJson(r)).build();
         }catch(JoseException je) { return Response.status(401).build(); }
         catch(NoResultException nre){ return Response.status(417).build(); }
@@ -141,11 +137,7 @@ public class ReviewsResource {
                                JsonObject jo) { 
         try{
             Long userId = Tokens.fromToken(token);
-            String jpql = "SELECT r FROM Review r WHERE r.userId=:id AND r.movieId=:movieId";
-            Review r = em.createQuery(jpql, Review.class)
-                    .setParameter("userId", userId)
-                    .setParameter("movieId", movieId)
-                    .getSingleResult();
+            Review r = mz.getReviews().getMyReview(userId, movieId);
             if(r != null){
                 Review rev = new Review(r.getId(),movieId,userId,r.getUserName(), jo.getString("review"));
                 mz.getReviews().update(rev);
@@ -165,11 +157,7 @@ public class ReviewsResource {
                                  JsonObject jo) {
         try{
             Long userId = Tokens.fromToken(token);
-            String jpql = "SELECT r FROM Review r WHERE r.userId=:userId AND r.movieId=:movieId";
-            Review r = em.createQuery(jpql, Review.class)
-                    .setParameter("userId", userId)
-                    .setParameter("movieId", movieId)
-                    .getSingleResult();
+            Review r = mz.getReviews().getMyReview(userId, movieId);
             if(r != null){
                 mz.getReviews().delete(r.getId());
                 return Response.noContent().build();

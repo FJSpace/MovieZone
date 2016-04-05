@@ -14,8 +14,7 @@ import java.util.List;
  */
 public interface IEnjoyers extends IDAO<Enjoyer,Long>{
     public List<Enjoyer> getByName(String fname);
-    
     public List<Enjoyer> getByEmail(String email);
-    
     public String getUserById(Long id);
+    public Enjoyer findByUsername(String user);
 }

@@ -9,6 +9,7 @@ import edu.chalmers.moviezone_backend.persistence.DAO;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
 /**
@@ -73,6 +74,18 @@ public class Reviews extends DAO<Review,Long> implements IReviews{
             return rs;
         else
             return rs.subList(0, end);
+    }
+    
+    @Override
+    public Review getMyReview(Long userId, String movieId){
+        try{
+            String jpql = "SELECT r FROM Review r WHERE r.userId=:userId AND r.movieId=:movieId";
+            Review r = em.createQuery(jpql, Review.class)
+                         .setParameter("userId", userId)
+                         .setParameter("movieId", movieId)
+                         .getSingleResult();
+            return r;
+        } catch(NoResultException nre) {return null;}
     }
     
 }

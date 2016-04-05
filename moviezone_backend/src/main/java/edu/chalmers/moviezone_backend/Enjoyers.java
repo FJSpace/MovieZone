@@ -9,6 +9,7 @@ import edu.chalmers.moviezone_backend.persistence.DAO;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
 /**
@@ -52,5 +53,15 @@ public class Enjoyers extends DAO<Enjoyer,Long> implements IEnjoyers{
         Enjoyer e = em.createQuery(jpql, Enjoyer.class).
                 setParameter("id", id).getSingleResult();
         return e.getUserName();
+    }
+    
+    @Override
+    public Enjoyer findByUsername(String user){
+        try{
+            String jpql = "SELECT e FROM Enjoyer e WHERE e.userName=:user)";
+            Enjoyer e = em.createQuery(jpql, Enjoyer.class)
+                          .setParameter("user", user).getSingleResult();  
+            return e;
+        } catch(NoResultException nre) {return null;}
     }
 }

@@ -47,8 +47,8 @@ import org.jose4j.lang.JoseException;
 @Path("users")
 public class EnjoyersResource {
   
-    @PersistenceContext(unitName = "moviezone_pu",type=PersistenceContextType.TRANSACTION)
-    private EntityManager em;
+    //@PersistenceContext(unitName = "moviezone_pu",type=PersistenceContextType.TRANSACTION)
+    //private EntityManager em;
    
     @Context
     private UriInfo uriInfo;
@@ -110,18 +110,12 @@ public class EnjoyersResource {
     public Response login(JsonObject jo) {
         try{
             String username = jo.getString("username");
-            String jpql = "SELECT e FROM Enjoyer e WHERE LOWER(e.userName) = LOWER(:username)";
-            List<Enjoyer> users = em.createQuery(jpql, Enjoyer.class)
-                    .setParameter("username", username).getResultList();
-            if(users != null){
-                Enjoyer user = users.get(0);
+            Enjoyer user = mz.getEnjoyers().findByUsername(username);
+            if(user != null){
                 if(Password.checkPassword(jo.getString("password"), user.getPassword()))
                     return Response.ok(Tokens.toToken(user.getId())).build();
-                else 
-                    return Response.status(401).build();
             }
-            else
-                return Response.status(401).build();
+            return Response.status(401).build();
         }catch(JoseException je) { return Response.status(401).build(); }
     }
     

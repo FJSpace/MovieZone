@@ -18,4 +18,5 @@ public interface IReviews extends IDAO<Review,Long>{
     public List<Review> getByEnjoyer(Long userid);
     public List<Review> getLatestByEnjoyer(Long userId, int end);
     public List<Review> getLatestReviews(int end);
+    public Review getMyReview(Long userId,String movieId);
 }
