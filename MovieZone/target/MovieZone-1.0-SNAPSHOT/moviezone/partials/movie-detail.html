@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <link rel="stylesheet" href="../css/default.css" type="text/css"/>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <div ng-controller="MovieDetailCtrl">
+            <div class="sectionHeader defaultFont">
+                {{omdbMovie.Title}} ({{omdbMovie.Year}})
+            </div>
+            <div class="movieDetails">
+                <div class="moviePanel contentCard w3-card-2">
+                    <div class="moviePosterBox">
+                        <img src="{{omdbMovie.Poster}}" class="detailsPoster">
+                    </div>
+                    <div class="movieDetailsBox">
+                        <div ng-controller="AverageRatingCtrl">
+                            <uib-rating class="averageRating" ng-model="avgRating" readonly=true max=5></uib-rating>
+                            <br><b>Average rating: </b>{{avgRating}}/5
+                        </div>
+                        <b>Genre:</b> {{omdbMovie.Genre}} <br>
+                        <b>Director:</b> {{omdbMovie.Director}} <br>
+                        <b>Writers: </b> {{omdbMovie.Writer}} <br>
+                        <b>Release date:</b> {{omdbMovie.Released}} <br>
+                        <b>Runtime:</b> {{omdbMovie.Runtime}} <br><br>
+                        <b>Plot:</b> {{omdbMovie.Plot}}
+                    </div>
+                </div>
+                <div class="movieReviewBox" ng-controller="MovieReviewCtrl">
+                    <div class="movieReviewCard contentCard myReview w3-card-2" ng-show="sessionToken">
+                        <div class="myRating" ng-show="!myReview || editing">
+                            <b>Rate movie:</b>
+                            <uib-rating ng-model="myRating" ng-click="rate(myRating)" max=5 on-hover="hoveringOver(value)" on-leave="overStar = null" titles="['one','two','three']" aria-labelledby="default-rating"></uib-rating>
+                            <br>
+                            <button class="btn btn-success" ng-click="editing = true" ng-hide="editing || myReview">Write review</button>
+                        </div>
+                        <div class="form-group" ng-show="editing">
+                            <label for="comment" ng-hide="editing">Write a review:</label>
+                            <label for="comment" ng-show="editing">Edit review:</label>
+                            <textarea class="form-control" rows="5" id="comment" ng-model="reviewFieldText"></textarea>
+                            <button class="btn btn-success" ng-click="save(reviewFieldText)" ng-hide="editing">Submit</button>
+                            <button class="btn btn-success" ng-click="save(reviewFieldText)" ng-show="editing">Save</button>
+                            <button class="btn btn-danger" ng-click="editing = false" ng-show="editing">Cancel</button>
+                        </div>
+                        <div ng-show="myReview && !editing">
+                            <b>{{myReview.userName}}</b> {{myReview.reviewDate}}
+                            <a href="" class="icon-link">
+                                <span class="glyphicon glyphicon-edit" ng-click="edit(myReview)"></span>
+                            </a>
+                            <a href="" class="icon-link">
+                                <span class="glyphicon glyphicon-remove pull-right" ng-click="delete()"></span>
+                            </a>
+                            <br>
+                            <uib-rating ng-model="myRating" max=5 readonly="true"></uib-rating>
+                            <br>
+                            {{myReview.reviewText}}
+                        </div>
+                    </div>
+
+                    <div ng-repeat="review in reviews">
+                        <div class="movieReviewCard contentCard w3-card-2">
+                            <b>{{review.userName}}</b> {{review.reviewDate}}
+                            <div ng-show="review.rating" ng-controller="RatingCtrl">
+                                <uib-rating ng-model="review.rating" max=5 readonly="true"></uib-rating>
+                            </div>
+                            <br>
+                            {{review.reviewText}}
+                        </div>
+                    </div>
+                </div>
+                <div style="clear:both;"></div>
+            </div>
+        </div>
+    </body>
+</html>

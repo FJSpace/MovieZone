@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html ng-app = "MovieZone">
+    <head>
+        <title>Start Page</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.js"></script>
+        <script src="httpS://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular-route.js"></script>
+        <script src="./moviezone/js/services.js"></script>
+        <script src="./moviezone/js/app.js"></script>
+        <script src="./moviezone/js/controllers.js"></script>
+        <script src="https://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.14.3.js"></script>
+        <script src="./resources/bower_components/angular-cookies/angular-cookies.js"></script>
+        <link rel="stylesheet" href="./resources/bower_components/bootstrap/dist/css/bootstrap.min.css">
+        <link rel="import" href="./resources/bower_components/star-rating/star-rating.html">
+        <link rel="stylesheet" href="./moviezone/css/default.css">
+        <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+        <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Quicksand:light">
+        <link href='https://fonts.googleapis.com/css?family=Work+Sans:300,400,500' rel='stylesheet' type='text/css'>
+        
+    </head>
+    <body class="movieZoneMain">
+        <header>
+            <h1 class ="text-center"> 
+                <a class="branding" href ="#/">MovieZone</a>
+            </h1>
+        </header> 
+       
+        <div class="navbar navbar-default defaultFont navbarFont" ng-controller='LoginModalCtrl'>
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand navbarFont" href="#/">MovieZone</a>
+                </div>
+                <div class="navbar-collapse collapse" id="searchbar">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li id="userPage">
+                            <a ng-show="sessionToken" href="#/users/me"><i class="icon-user"></i> My Page</a>
+                        </li>
+                        <li id="login"> 
+                            <a href="" ng-hide="sessionToken" class="icon-user" ng-click ="open()">Login</a>
+                        </li>
+                        <li id="logout">
+                            <a ng-show="sessionToken"ng-click="logout()" href=""><i class="icon-user"></i> Logout</a>
+                        </li>
+                    </ul>
+                    <form class="navbar-form">
+                        <div class="form-group" style="display:inline;">
+                          <div ng-controller ="SearchCtrl" class="input-group" style="display:table;">
+                              <input ng-focus="redirect()" ng-blur="clear()" ng-keyUp="search()"class="form-control" name="search" 
+                                     placeholder="Search for Title" type="text" ng-model="searchData.searchString">
+                            <span class="input-group-addon" style="width:1%;"><a class="glyphicon glyphicon-search" href="#searchResults" ng-click="search()"></a></span>
+                          </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div ng-view></div>
+    </body>
+</html>
+

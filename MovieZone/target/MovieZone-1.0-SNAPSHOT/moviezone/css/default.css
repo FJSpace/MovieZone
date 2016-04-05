@@ -1,0 +1,217 @@
+.contentCard {
+    background-color: #f8f8f8;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    border-radius: 3px;
+    padding: 8px;
+    float: left;
+    margin: 0.5%;
+    width: 100%
+}
+
+.wrapfrontpage {
+  overflow: hidden;
+  width: 80%;
+  position: absolute;
+  left: 10%;
+}
+
+.wrapgrid {
+    overflow: hidden;
+    width: 49%;
+    float: left;
+}
+.gridbox {
+   width: 33.3333333%;
+   padding-bottom: 44%;
+   position: relative;
+   float: left;
+   background-color: #000;
+}
+.gridinner {
+   position: absolute;
+   left: 0px;
+   right: 0px;
+   top: 0px;
+   bottom: 0px;
+}
+
+.gridimage {
+    width: 100%;
+    height: 100%;
+}
+
+.gridimage:hover {
+    opacity: 0.3;
+}
+
+.gridimageTitle {
+    position: absolute;
+    left: 10px;
+    right: 10px;
+    top: 10px;
+    bottom: 10px;
+    color: white;
+    text-align: center;
+    vertical-align: middle;
+    font-family: "Verdana", Verdana, Sans;
+    font-weight: bold;
+    font-size: 1.5vw;
+}
+
+.sectionHeader {
+    text-align: center;
+    color: black;
+    font-size: 1.5vw;
+    padding-bottom: 1vw
+}
+
+.detailsPoster {
+    width: 100%;
+    height: auto;
+}
+
+.movieDetails {
+    position: absolute;
+    left: 5%;
+    width: 90%;
+}
+
+.moviePanel {
+    width: 59%;
+    height: auto;
+    float: left;
+}
+
+.movieDetailsBox {
+    box-sizing: border-box;
+    word-wrap: break-word;
+    width: 50%;
+    padding: 10px;
+    height: auto;
+    float: left;
+}
+
+.moviePosterBox {
+    box-sizing: border-box;
+    width: 50%;
+    float: left;
+}
+
+.movieReviewBox {
+    width: 39%;
+    margin: 0.5%;
+    float: left;
+}
+
+.movieReviewCard {
+    margin: 0;
+    margin-bottom: 5px;
+    width: 100%;
+}
+
+.wraplatestReviews {
+    width: 49%;
+    float: left;
+    margin: 0.5%
+}
+
+.averageRating {
+    font-size: 40px;
+}
+
+.myRating {
+}
+
+.myReview {
+    background-color: #bbdefb
+}
+
+.movieZoneMain {
+    background-color: #f0f0f0;
+}
+
+.branding {
+    font-family: 'Quicksand', Sans;
+    font-size: 60px;
+}
+
+.defaultFont {
+    font-family: "Work Sans", Sans;
+}
+.thumbnail-img{
+    width: 125px;
+    height: 180px;
+}
+
+.navbarFont {
+    font-weight: 500;
+    font-size: 2vh;
+}
+
+a:link {
+    --color: #1BA1E2;
+    text-decoration: none;
+}
+
+a:visited {
+    color: #1BA1E2;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #1BA1E2;
+    border: 0px;
+    text-decoration: underline;
+}
+
+a:active {
+    color: #1BA1E2;
+    border: 0px;
+    text-decoration: underline;
+}
+
+a:hover img {
+   text-decoration: none;
+}
+
+.icon-link:hover {
+    text-decoration:none;
+}
+
+.icon-link:hover .icon-link-text {
+    text-decoration:underline;
+}
+
+.branding:hover, .branding:visited, .branding:link {
+    text-decoration: none;
+    color:black;
+}
+
+.labelFont{
+    font-family: "Work Sans", Sans;
+    font-size: 28px;
+}
+
+.ultrathumbnail-img{
+    width: 50px;
+    height: 70px;
+}
+
+.left {
+    float: left;
+    padding: 5px;
+}
+thumbnail.right-caption > img {
+    float: left;
+    margin-right: 9px;
+}
+
+.thumbnail.right-caption {
+    float: left;
+}
+
+.thumbnail.right-caption > .caption {
+    padding: 4px;
+}
+

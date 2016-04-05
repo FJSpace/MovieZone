@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html ng-app="MovieZone">
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <div class="wrapfrontpage">
+            <div class="contentCard wrapgrid w3-card-2">
+                <div class="sectionHeader defaultFont">Top movies</div>
+                <div ng-controller="PhotoGridCtrl">
+                    <div ng-repeat="movie in movieInfo | limitTo:9">
+                        <div class="gridbox">
+                            <div class="gridinner">
+                                <div class="gridimageTitle" 
+                                     ng-show="isActiveId(movie.id)">
+                                    {{movie.title}} ({{movie.year}})
+                                </div>
+                                <a ng-href="#/movies/{{movie.id}}">
+                                    <img src={{movie.poster}} class="gridimage" 
+                                         ng-mouseover="setActiveId(movie.id)" 
+                                         ng-mouseleave="resetActiveId()">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="wraplatestReviews">
+                <div class="sectionHeader defaultFont w3-card-2 contentCard movieReviewCard">Latest reviews</div>
+                <div ng-controller="LatestReviewsCtrl">
+                    <div ng-repeat="review in latestReviews" class="w3-card-2 contentCard movieReviewCard">
+                        <b>{{review.movie.Title}}</b>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

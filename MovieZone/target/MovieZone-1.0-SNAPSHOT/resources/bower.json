@@ -1,0 +1,30 @@
+{
+  "name": "MovieZone",
+  "homepage": "https://github.com/oskarjonefors/DAT076-DIT126-Project",
+  "authors": [
+    "Jesper Olsson <jespols@student.chalmers.se>"
+  ],
+  "description": "",
+  "main": "",
+  "moduleType": [
+    "es6"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.6",
+    "jquery": "^2.2.1",
+    "angular": "^1.5.0",
+    "angular-route": "^1.5.0",
+    "angular-mocks": "^1.5.0",
+    "angular-cookies": "^1.5.0",
+    "star-rating": "*"
+  }
+}

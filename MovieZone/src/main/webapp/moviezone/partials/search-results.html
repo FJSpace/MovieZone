@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html ng-app="MovieZone">
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body ng-controller = "SearchCtrl">
+        <table class ="table table-striped">
+            <thead>
+            <div class="text-center"><h3 class="text-uppercase defaultFont sectionHeader"> Search results for "<b>{{searchData.lastSearch}}</b>"</h3></div><br>
+            </thead>
+                <tr ng-repeat ="movie in searchData.results" ng-class-even="even" ng-class-odd="odd">
+                    <td><a ng-href="#/movies/{{movie.imdbID}}"><img src={{movie.Poster}} class="thumbnail-img"> {{movie.Title }} ({{movie.Year}})</a></td>
+    </tr>
+    <div class = "text-center" ng-show = "!searchData.results"> 
+        <text class="text-primary">Inga resultat funna!</text> 
+    </div>
+    </table>
+    </body>
+</html>

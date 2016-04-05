@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html ng-app ="MovieZone" ng-init="getMyProfile()">
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body ng-controller="PageCtrl">
+        <div class="container" ng-hide="showEdit">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad" >
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <A href="" ng-click="setEdit()" class="defaultFont" >Edit Profile</A>
+                            <h3 class="panel-title text-center defaultFont"> <b>{{user.userName}}</b></h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-3 col-lg-3 " align="center"> <img alt="User Pic" 
+                                     src="https://heatherchristenaschmidt.files.wordpress.com/2011/09/facebook_no_profile_pic2-jpg.gif" 
+                                     class="img-circle img-responsive"> </div>
+                                <div class=" col-md-9 col-lg-9 "> 
+                                    <table class="table table-user-information">
+                                        <tbody>
+                                            <tr>
+                                              <td class="defaultFont">First name:</td>
+                                              <td>{{user.fname}}</td>
+                                            </tr>
+                                            <tr>
+                                              <td class="defaultFont">Last name:</td>
+                                              <td>{{user.lname}}</td>
+                                            </tr>
+                                            <tr>
+                                              <td class="defaultFont">Email Address: </td>
+                                              <td>{{user.email}}</td>
+                                            </tr>    
+                                        </tbody>
+                                    </table>   
+                                </div>
+                            </div>
+                            <h1 class="labelFont" align="center">Latest reviews</h1><br>
+                            <div class="list-group">
+                                <a href="#" class="list-group-item">
+                                    <h4 class="list-group-item-heading labelFont">Movie title goes here</h4><br>
+                                    <p class="list-group-item-text">Review goes here.</p>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+        
+        <div class="container" ng-show="showEdit">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad" >
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h6 class="defaultFont text-center">Editing profile</h6>
+                            <h3 class="text-center defaultFont"> {{user.username}}</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-3 col-lg-3 " align="center"> <img alt="User Pic" 
+                                    src="https://heatherchristenaschmidt.files.wordpress.com/2011/09/facebook_no_profile_pic2-jpg.gif" 
+                                    class="img-circle img-responsive"> </div>
+                                <div class=" col-md-9 col-lg-9 "> 
+                                    <table class="table table-user-information">
+                                        <tbody>
+                                            <tr>
+                                              <td>*Username:</td>
+                                              <td><input type="text" class="form-control" ng-model="user.username"></td>
+                                            </tr>
+                                            <tr>
+                                              <td>*First name:</td>
+                                              <td><input type="text" class="form-control" ng-model="user.firstName"></td>
+                                            </tr>
+                                            <tr>
+                                              <td>*Last name:</td>
+                                              <td><input type="text" class="form-control" ng-model="user.lastName"></td>
+                                            </tr>
+                                            <tr>
+                                              <td>*Email Address: </td>
+                                              <td><input type="text" class="form-control" ng-model="user.emailAddress"></td>
+                                            </tr>    
+                                        </tbody>
+                                    </table>
+                                    <text class="text-danger defaultFont" ng-hide="successfulEdit">Fyll i alla fält!</text>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-success" ng-click="editUser()">Save</button>
+                    <button class="btn btn-danger" ng-click = "cancel()"> Cancel</button>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
