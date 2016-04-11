@@ -68,8 +68,8 @@ and open the template in the editor.
                     <div ng-repeat="review in reviews">
                         <div class="movieReviewCard contentCard w3-card-2">
                             <b>{{review.userName}}</b> {{review.reviewDate}}
-                            <div ng-show="review.rating" ng-controller="RatingCtrl">
-                                <uib-rating ng-model="review.rating" max=5 readonly="true"></uib-rating>
+                            <div ng-show="myRating" ng-controller="RatingCtrl">
+                                <uib-rating ng-model="myRating" max=5 readonly="true"></uib-rating>
                             </div>
                             <br>
                             {{review.reviewText}}

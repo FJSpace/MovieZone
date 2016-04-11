@@ -3,6 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+'use strict';
 
 var movieZoneControllers = 
         angular.module('MovieZoneControllers', ['ui.bootstrap', 'ngCookies']);
@@ -17,7 +18,7 @@ movieZoneControllers.controller('PhotoGridCtrl',
 
                     var movieArray = [];
                     movies.forEach(function (mov) {
-                        omdb.findById(mov.id)
+                        omdb.findById(mov.movieId)
                                 .success(function (omdbMovie) {
                                     movieArray.push({id: omdbMovie.imdbID,
                                         title: omdbMovie.Title,
@@ -120,6 +121,14 @@ movieZoneControllers.controller('MovieReviewCtrl', ['$scope', '$location',
             });
         };
         
+        $scope.rate = function(rating) {
+            movieZone.postRating($scope.sessionToken, movieId, rating)
+                    .success(function(rating) {
+                        $scope.myRating = rating;
+                        delete $scope.editing;
+            });
+        };
+        
         movieZone.getReviewsByMovie(movieId)
                 .success(function (reviews) {
                     $scope.reviews = reviews;
@@ -208,7 +217,7 @@ function ($scope, $uibModalInstance, moviezone, $cookies, $window) {
                     if(error.status === 406)
                         $scope.emailFailed=true;
                     else
-                        $scope.registerFailed=true;
+                    $scope.registerFailed=true;
                 });
   };
   $scope.cancel = function () {
@@ -367,9 +376,8 @@ movieZoneControllers.controller('LatestReviewsCtrl',
         
     }]);
 
-movieZoneControllers.controller('LatestUserReviewsCtrl', 
-['$scope', 'OMDBCatalogueProxy', 'MovieZoneProxy', 
-    function($scope, omdb, movieZone) {
+movieZoneControllers.controller('LatestUserReviewsCtrl',['$scope', 'OMDBCatalogueProxy','$cookies', 'MovieZoneProxy',  
+    function($scope, omdb, $cookies, movieZone) {
         $scope.latestUserReviews = [];
         
         movieZone.getLatestByEnjoyer($cookies.get('MovieZoneSessionToken'),10)

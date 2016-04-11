@@ -64,10 +64,11 @@ public class RatingsResource {
     public Response getMyRating(@HeaderParam("authorization") String token,
                                 @PathParam("movieId") String movieId ) {
         try{
+            Gson gs = new Gson();
             Long userId = Tokens.fromToken(token);
             Rate r = mz.getRatings().getMyRating(userId, movieId);
             if(r != null)
-                return Response.ok(r).build();
+                return Response.ok(gs.toJson(r)).build();
             else
                 return Response.status(400).build();
         }
@@ -79,7 +80,8 @@ public class RatingsResource {
     @Produces({MediaType.APPLICATION_JSON})
     public Response getAverageRating(@PathParam("movieId") String movieId){ 
         double avg = mz.getRatings().getAverageRating(movieId);
-        return Response.ok(avg).build();
+        Gson gs = new Gson();
+        return Response.ok(gs.toJson(avg)).build();
     }
     
     @GET
@@ -88,17 +90,17 @@ public class RatingsResource {
     public Response getTopRatedMovies(@QueryParam("nbrofmovies") int nrOfMovies){ 
         Gson gs = new Gson();
         List<Rate> rs = mz.getRatings().getTopRatedMovies();
-        while(rs.size() > nrOfMovies){
+        /*while(rs.size() > nrOfMovies){
             Rate r = rs.get(rs.size()-1);
             rs.remove(rs.size()-1);
             mz.getRatings().delete(r.getId());
-        }
+        }*/
         String json = gs.toJson(rs);
-        while(!rs.isEmpty()){
+        /*while(!rs.isEmpty()){
             Rate r = rs.get(rs.size()-1);
             rs.remove(rs.size()-1);
             mz.getRatings().delete(r.getId());
-        }
+        }*/
         return Response.ok(json).build();
     }
     

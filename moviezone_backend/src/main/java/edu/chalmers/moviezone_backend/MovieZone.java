@@ -27,6 +27,7 @@ public class MovieZone implements IMovieZone{
     private IReviews reviews;
 
     public MovieZone() {
+        //init();
         Logger.getAnonymousLogger().log(Level.INFO, "MovieZone is ALIVE :)");
     }
 
@@ -45,5 +46,18 @@ public class MovieZone implements IMovieZone{
         return reviews;
     }
    
-   
+    /*public void init(){
+       Enjoyer e = new Enjoyer("Kalle","anka");
+       enjoyers.create(e);
+       Review r = new Review("tt1431045",e.getId(),e.getUserName(), "En bra film :)");
+       reviews.create(r);
+       Rate rate = new Rate("tt1431045",e.getId(),3.0);
+       ratings.create(rate);
+       e = new Enjoyer("Hacke","hackspett");
+       enjoyers.create(e);
+       r = new Review("tt1431045",e.getId(),e.getUserName(), "Gillar denna filmen (Y)");
+       reviews.create(r);
+       rate = new Rate("tt1431045",e.getId(),4.0);
+       ratings.create(rate);
+    }*/
 }

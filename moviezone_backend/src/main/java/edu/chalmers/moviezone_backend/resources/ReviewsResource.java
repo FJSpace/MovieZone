@@ -64,7 +64,7 @@ public class ReviewsResource {
     @Produces({MediaType.APPLICATION_JSON})
     public Response getReviewsByUser(@PathParam("username") String username){ 
         Gson gs = new Gson();
-        Long id = new Long(0);
+        Long id = mz.getEnjoyers().findByUsername(username).getId();
         List<Review> reviews = mz.getReviews().getByEnjoyer(id);
         return Response.ok(gs.toJson(reviews)).build();
     }
@@ -146,8 +146,7 @@ public class ReviewsResource {
     @Consumes(value = {MediaType.APPLICATION_JSON})
     @Produces(value = {MediaType.APPLICATION_JSON})
     public Response deleteReview(@HeaderParam("authorization") String token,
-                                 @PathParam("movieId") String movieId,
-                                 JsonObject jo) {
+                                 @PathParam("movieId") String movieId) {
         try{
             Long userId = Tokens.fromToken(token);
             Review r = mz.getReviews().getMyReview(userId, movieId);

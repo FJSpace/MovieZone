@@ -7,6 +7,7 @@ package edu.chalmers.moviezone_backend;
 
 import edu.chalmers.moviezone_backend.persistence.DAO;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -97,6 +98,7 @@ public class Ratings extends DAO<Rate,Long> implements IRatings{
                 rs.add(r);
             }
             rs.sort(r);
+            Collections.reverse(rs);
             return rs;
         }
     }

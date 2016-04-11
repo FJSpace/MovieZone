@@ -106,7 +106,7 @@ movieZoneService.factory('MovieZoneProxy', ['$http',
         function getMyReviews(token){
             return $http({
                 url: url
-            })
+            });
         }
         
         function postReview(token, review, movieId) {
@@ -150,7 +150,7 @@ movieZoneService.factory('MovieZoneProxy', ['$http',
             });
         }
         
-        function getLatestByEnjoyer(nbrOfReviews) {
+        function getLatestByEnjoyer(token, nbrOfReviews) {
             return $http({
                 url: url + '/reviews/latest/user/' + nbrOfReviews,
                 method: 'GET',
