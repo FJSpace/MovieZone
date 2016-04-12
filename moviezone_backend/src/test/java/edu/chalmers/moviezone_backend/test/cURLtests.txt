@@ -1,10 +1,16 @@
+I'm using googles app Postman when testing and here i just past in the cURL code that 
+Postman generate (with small modifications)
+
+When a user register or login it will generate a token that will be visible in the responsbody.
+to be able to run this test you have to replace all \\TOKEN// with the token you get.
+
 register: 
 
 curl -X POST -H "Content-Type: application/json"  
              -d '{"username":"test","password":"test","email":"test@test.se","fname":"test","lname":"test"}' 
              "http://localhost:8080/MovieZone/webresources/users/newuser"
 
-response body: eyJhbGciOiJBMTI4S1ciLCJlbmMiOiJBMTI4Q0JDLUhTMjU2In0.ibYqPo6WuMiObVbgAtBVMM4lEeA2X4bO7jLcbKnM3yLBAUh5dQrIWA.rc_F3vFAgukwEnWJ192vFg.OanNCwvM-Fhzl9MPC4Czdg.SXkY7QVAMbBoP2nJy2rzmA             
+response body: \\TOKEN//             
              
 login: 
 
@@ -15,7 +21,7 @@ curl -X POST -H "Content-Type: application/json"
 editUser: 
 
 curl -X PUT -H "Content-Type: application/json" 
-            -H "authorization: eyJhbGciOiJBMTI4S1ciLCJlbmMiOiJBMTI4Q0JDLUhTMjU2In0.ibYqPo6WuMiObVbgAtBVMM4lEeA2X4bO7jLcbKnM3yLBAUh5dQrIWA.rc_F3vFAgukwEnWJ192vFg.OanNCwvM-Fhzl9MPC4Czdg.SXkY7QVAMbBoP2nJy2rzmA" 
+            -H "authorization: \\TOKEN//" 
             -d '{"username":"EditTest","password":"test","fname":"edit","lname":"edit","email":"edit@test.se"}' 
             "http://localhost:8080/MovieZone/webresources/users/me"
 
@@ -25,19 +31,19 @@ curl -X GET "http://localhost:8080/MovieZone/webresources/users/1"
 
 getMyProfile: 
 
-curl -X GET -H "authorization: eyJhbGciOiJBMTI4S1ciLCJlbmMiOiJBMTI4Q0JDLUhTMjU2In0.ibYqPo6WuMiObVbgAtBVMM4lEeA2X4bO7jLcbKnM3yLBAUh5dQrIWA.rc_F3vFAgukwEnWJ192vFg.OanNCwvM-Fhzl9MPC4Czdg.SXkY7QVAMbBoP2nJy2rzmA" 
+curl -X GET -H "authorization: \\TOKEN//" 
             "http://localhost:8080/MovieZone/webresources/users/me"
 
 deleteUser:
 
-curl -X DELETE -H "authorization: eyJhbGciOiJBMTI4S1ciLCJlbmMiOiJBMTI4Q0JDLUhTMjU2In0.ibYqPo6WuMiObVbgAtBVMM4lEeA2X4bO7jLcbKnM3yLBAUh5dQrIWA.rc_F3vFAgukwEnWJ192vFg.OanNCwvM-Fhzl9MPC4Czdg.SXkY7QVAMbBoP2nJy2rzmA" 
+curl -X DELETE -H "authorization: \\TOKEN//" 
               "http://localhost:8080/MovieZone/webresources/users/me"
             
 
 postReview:
 
 curl -X POST -H "Content-Type: application/json" 
-             -H "authorization: eyJhbGciOiJBMTI4S1ciLCJlbmMiOiJBMTI4Q0JDLUhTMjU2In0.IOqPQvwAXe-DBTU9jBxOszqcAjEEZ_mYG47wN6U_WgKidBk5KwQ8mw.dxO3cxum5AimwG6KCXcpqA.vsAk2xw04iSYRGyg1nRlVw.ar_BoTfUtKgTtrtjuel2ng" 
+             -H "authorization: \\TOKEN//" 
              -d '{"review":"En liten review test"}' 
              "http://localhost:8080/MovieZone/webresources/reviews/tt1431045"
 
@@ -48,20 +54,20 @@ curl -X GET "http://localhost:8080/MovieZone/webresources/reviews/movie/tt143104
 getReviewsByUser:  
 
 curl -X GET -H "Content-Type: application/json" 
-            -H "authorization: eyJhbGciOiJBMTI4S1ciLCJlbmMiOiJBMTI4Q0JDLUhTMjU2In0.MCn0JD1qzfufnauB-SiduHGr45D1x623uV7_KpMy7vS4EmiNAHkWGA.zxKQT-R7cgTIsauqcVyFLA.n8j9u5hIZ4G27c_3friZYw.9r7K-3g4x-puNUuP6rrW0g" 
+            -H "authorization: \\TOKEN//" 
             "http://localhost:8080/MovieZone/webresources/reviews/user/test"
 
 editReview: 
 
 curl -X PUT -H "Content-Type: application/json" 
-            -H "authorization: eyJhbGciOiJBMTI4S1ciLCJlbmMiOiJBMTI4Q0JDLUhTMjU2In0.MCn0JD1qzfufnauB-SiduHGr45D1x623uV7_KpMy7vS4EmiNAHkWGA.zxKQT-R7cgTIsauqcVyFLA.n8j9u5hIZ4G27c_3friZYw.9r7K-3g4x-puNUuP6rrW0g" 
+            -H "authorization: \\TOKEN//" 
             -d '{"review":"En liten review test som nu även ska vara redigerad"}' 
             "http://localhost:8080/MovieZone/webresources/reviews/tt1431045"
 
 getMyReview: 
 
 curl -X GET -H "Content-Type: application/json" 
-            -H "authorization: eyJhbGciOiJBMTI4S1ciLCJlbmMiOiJBMTI4Q0JDLUhTMjU2In0.MCn0JD1qzfufnauB-SiduHGr45D1x623uV7_KpMy7vS4EmiNAHkWGA.zxKQT-R7cgTIsauqcVyFLA.n8j9u5hIZ4G27c_3friZYw.9r7K-3g4x-puNUuP6rrW0g" 
+            -H "authorization: \\TOKEN//" 
             "http://localhost:8080/MovieZone/webresources/reviews/me/tt1431045"
 
 getLatestReviews: 
@@ -71,24 +77,40 @@ curl -X GET "http://localhost:8080/MovieZone/webresources/reviews/latest/1"
 getLatestByEnjoyer: 
 
 curl -X GET -H "Content-Type: application/json" 
-            -H "authorization: eyJhbGciOiJBMTI4S1ciLCJlbmMiOiJBMTI4Q0JDLUhTMjU2In0.MCn0JD1qzfufnauB-SiduHGr45D1x623uV7_KpMy7vS4EmiNAHkWGA.zxKQT-R7cgTIsauqcVyFLA.n8j9u5hIZ4G27c_3friZYw.9r7K-3g4x-puNUuP6rrW0g" 
+            -H "authorization: \\TOKEN//" 
             "http://localhost:8080/MovieZone/webresources/reviews/latest/user/2"
 
 deleteReview:
 
-curl -X DELETE -H "authorization: eyJhbGciOiJBMTI4S1ciLCJlbmMiOiJBMTI4Q0JDLUhTMjU2In0.MCn0JD1qzfufnauB-SiduHGr45D1x623uV7_KpMy7vS4EmiNAHkWGA.zxKQT-R7cgTIsauqcVyFLA.n8j9u5hIZ4G27c_3friZYw.9r7K-3g4x-puNUuP6rrW0g" 
+curl -X DELETE -H "authorization: \\TOKEN//" 
                "http://localhost:8080/MovieZone/webresources/reviews/tt1431045"
 
 postRating: 
 
- 
+curl -X POST -H "Content-Type: application/json" -H "authorization: \\TOKEN//" 
+             -d '{"rating":3}' "http://localhost:8080/MovieZone/webresources/ratings/movie/tt0470752" 
 
 getAverageRating: 
 
+curl -X GET "http://localhost:8080/MovieZone/webresources/ratings/tt0470752"
+
 getMyRating:
+
+curl -X GET -H "authorization: \\TOKEN//" "http://localhost:8080/MovieZone/webresources/ratings/movie/tt0470752"
 
 getRatingsByUser: 
 
+curl -X GET "http://localhost:8080/MovieZone/webresources/ratings/user/1"
+
 getTopRatedMovies:
 
+curl -X GET "http://localhost:8080/MovieZone/webresources/ratings/top?nbrofmovies=10"
+
+editRating:
+
+curl -X PUT -H "Content-Type: application/json" -H "authorization: \\TOKEN//" 
+            -d '{"movieId":"tt0470752","rating":5}' "http://localhost:8080/MovieZone/webresources/ratings"
+
 deleteRating:
+
+curl -X DELETE -H "authorization: \\TOKEN//" "http://localhost:8080/MovieZone/webresources/ratings/movie/tt0470752"

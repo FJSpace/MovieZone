@@ -120,7 +120,6 @@ public class RatingsResource {
     }
     
     @PUT
-    @Path("{id}")
     @Consumes(value = {MediaType.APPLICATION_JSON})
     @Produces(value = {MediaType.APPLICATION_JSON})
     public Response editRating(@HeaderParam("authorization") String token,
@@ -144,10 +143,9 @@ public class RatingsResource {
     @Consumes(value = {MediaType.APPLICATION_JSON})
     @Produces(value = {MediaType.APPLICATION_JSON})
     public Response deleteRate(@HeaderParam("authorization") String token,
-                                 JsonObject jo) {
+                               @PathParam("movieId") String movieId) {
         try{
             Long userId = Tokens.fromToken(token);
-            String movieId = jo.getString("movieId");
             Rate r = mz.getRatings().getMyRating(userId, movieId);
             if(r != null){
                 mz.getRatings().delete(r.getId());
